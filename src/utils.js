@@ -1,5 +1,5 @@
 import { stringify } from 'qs'
-import { FETCH } from './'
+import { FETCH } from './index'
 
 const ACCEPT_HEADER = 'Accept'
 const AUTHORIZATION_HEADER = 'Authorization'
@@ -59,10 +59,10 @@ export const createRequest = ({ url, query, data, bearerToken, ...options }) => 
   })
 }
 
-const getActionRequestOptions = action => action[FETCH]
+export const getActionRequestOptions = action => action[FETCH]
 
-export const getRequestState = ({ error, completed } = { error: null, completed: false }) => ({
+export const getRequestState = ({ error, completedAt } = { error: null, completedAt: null }) => ({
   error: error || null,
-  completed: completed || false,
-  loading: !error && !completed,
+  completed: completedAt != null,
+  loading: !completedAt,
 })

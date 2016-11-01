@@ -2,26 +2,21 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { getActionRequestOptions, getRequestState } from './utils'
 
+const defaultMapStateToProps = () => ({ })
 const defaultGetRequestId = ({ requests }, id) => requests[id]
+const defaultSkipFetch = () => false
+const defaultForceFetch = () => false
 
-const fetchData = (
+const fetchData = ({
+  mapStateToProps = defaultMapStateToProps,
   mapPropsToAction,
+  mapPropsToDispatch,
   mapPropsToRequest,
+  skipFetch = defaultSkipFetch,
+  forceFetch = defaultForceFetch,
   getRequestById = defaultGetRequestId,
-) => WrappedComponent => {
+}) => WrappedComponent => {
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
-
-  const getRequest = (state, props) => {
-    if (mapPropsToRequest) {
-      return mapPropsToRequest(state, props)
-    }
-
-    const action = mapPropsToAction(props)
-    const options = getActionRequestOptions(action)
-    const request = getRequestById(state, options.id)
-
-    return request
-  }
 
   class FetchData extends Component {
     static displayName = `FetchData(${displayName})`
@@ -31,7 +26,6 @@ const fetchData = (
     }
 
     static propTypes = {
-      dispatch: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
       request: PropTypes.object,
     }
 
@@ -54,7 +48,11 @@ const fetchData = (
     dispatchIfNeeded(props) {
       const { request } = props
 
-      return !request ? this.refetch(props) : null
+      if (forceFetch(props) || (!skipFetch(props) && !request)) {
+        return this.refetch(props)
+      }
+
+      return null
     }
 
     refetch = (props = this.props) => (
@@ -68,18 +66,31 @@ const fetchData = (
     }
   }
 
-  return connect(
-    (state, props) => {
-      const request = getRequest(state, props)
-      const { error, loading } = getRequestState(request)
-
-      return {
-        request,
-        error,
-        loading,
-      }
+  const getRequest = (state, props) => {
+    if (mapPropsToRequest) {
+      return mapPropsToRequest(state, props)
     }
-  )(FetchData)
+
+    const action = mapPropsToAction(props)
+    const options = getActionRequestOptions(action)
+    const request = getRequestById(state, options.id)
+
+    return request
+  }
+
+  const mapStateToRequestProps = (state, props) => {
+    const request = getRequest(state, props)
+    const { error, loading } = getRequestState(request)
+
+    return {
+      request,
+      error,
+      loading,
+      ...mapStateToProps(state, props),
+    }
+  }
+
+  return connect(mapStateToRequestProps, mapPropsToDispatch)(FetchData)
 }
 
 export default fetchData

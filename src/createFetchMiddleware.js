@@ -9,7 +9,9 @@ import {
 
 const UNAUTHORIZED_STATUS = 403
 
-const middleware = () => next => async action => {
+const nowAsString = date => (date || new Date()).toISOString()
+
+const createFetchMiddleware = () => () => next => async action => {
   const options = getActionRequestOptions(action)
 
   if (!options) {
@@ -29,16 +31,17 @@ const middleware = () => next => async action => {
         const { status } = response
         const data = await decodeResponseBody(response)
         const error = response.ok ? null : data || new Error(response.statusText)
+        const completedAt = nowAsString()
 
         // Success
         if (!error) {
-          resolve({ ...action, type: successType, completed: true, status, data })
+          resolve({ ...action, type: successType, completedAt, status, data })
           return
         }
 
         // Unrecoverable error
         if (status === UNAUTHORIZED_STATUS) {
-          reject({ ...action, type: failureType, completed: true, status, error })
+          reject({ ...action, type: failureType, completedAt, status, error })
           return
         }
 
@@ -49,10 +52,10 @@ const middleware = () => next => async action => {
         }
 
         // Failure
-        reject({ ...action, type: failureType, retries, completed: true, status, error })
+        reject({ ...action, type: failureType, completedAt, retries, status, error })
       } catch (error) {
         // Network error
-        reject({ ...action, type: failureType, completed: true, error })
+        reject({ ...action, type: failureType, completedAt: nowAsString(), error })
       }
     })
   })
@@ -61,4 +64,4 @@ const middleware = () => next => async action => {
     .then(next, next)
 }
 
-export default middleware
+export default createFetchMiddleware

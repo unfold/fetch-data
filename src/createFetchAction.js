@@ -1,4 +1,5 @@
-import { createUrl, FETCH } from './'
+import { FETCH } from './index'
+import { createUrl } from './utils'
 
 const defaultCreateRequestId = (action, options) => createUrl(options)
 

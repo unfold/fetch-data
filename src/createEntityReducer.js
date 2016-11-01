@@ -1,11 +1,11 @@
 import { createAsyncActionTypes } from './utils'
 
-const defaultMapActionToEntities = action => {
+const defaultMapActionToEntities = (action, mapEntityToId) => {
   const data = [].concat(action.data)
 
   return data.reduce((entities, entity) => ({
     ...entities,
-    [entity.id]: entity,
+    [mapEntityToId(entity)]: entity,
   }), {})
 }
 
@@ -19,10 +19,13 @@ const defaultMapTypeToSuccessTypes = type => {
   })
 }
 
+const defaultMapEntityToId = ({ id }) => id
+
 const createEntityReducer = (
   type,
   mapActionToEntities = defaultMapActionToEntities,
-  mapTypeToSuccessTypes = defaultMapTypeToSuccessTypes
+  mapTypeToSuccessTypes = defaultMapTypeToSuccessTypes,
+  mapEntityToId = defaultMapEntityToId,
 ) => {
   const successTypes = mapTypeToSuccessTypes(type)
 
@@ -31,7 +34,7 @@ const createEntityReducer = (
       return state
     }
 
-    const entities = mapActionToEntities(action)
+    const entities = mapActionToEntities(action, mapEntityToId)
 
     return {
       ...state,

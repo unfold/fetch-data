@@ -1,8 +1,7 @@
 export createEntityReducer from './createEntityReducer'
 export createFetchAction from './createFetchAction'
-export createMiddleware from './createMiddleware'
+export createFetchMiddleware from './createFetchMiddleware'
 export createRequestsReducer from './createRequestsReducer'
-export fetchData from './fetchData'
 
 export {
   getActionRequestOptions,
@@ -12,3 +11,5 @@ export {
 // FIXME: Redux DevTools extension needs to be configured using serializedAction
 // for symbols to show up in actions as JSON.stringify strips symbols
 export const FETCH = 'fetch' // Symbol('fetch')
+
+export default from './fetchData'
