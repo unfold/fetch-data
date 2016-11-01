@@ -1,0 +1,64 @@
+{
+  "name": "@unfold/fetch-data",
+  "version": "0.1.0",
+  "description": "Declarative data fetching for Redux and React",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "eslint lib",
+    "prebuild": "rm -r lib",
+    "build": "babel src --out-dir lib",
+    "prepublish": "npm run build",
+    "postpublish": "git push origin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unfold/fetch-data.git"
+  },
+  "keywords": [
+    "fetch",
+    "react",
+    "redux",
+    "data",
+    "async"
+  ],
+  "author": "Unfold",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unfold/fetch-data/issues"
+  },
+  "homepage": "https://github.com/unfold/fetch-data#readme",
+  "eslintConfig": {
+    "extends": "@unfold/eslint-config"
+  },
+  "babel": {
+    "presets": [
+      "@unfold/babel-preset"
+    ],
+    "plugins": [
+      "transform-runtime"
+    ]
+  },
+  "devDependencies": {
+    "@unfold/eslint-config": "^1.2.0",
+    "chokidar": "^1.6.1",
+    "eslint": "^3.8.1",
+    "react": "^15.3.2",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0"
+  },
+  "dependencies": {
+    "@unfold/babel-preset": "^1.0.1",
+    "babel-cli": "^6.16.0",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "qs": "^6.3.0",
+    "retry": "^0.10.0"
+  },
+  "peerDependencies": {
+    "react": "^15.3.2",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0"
+  }
+}
