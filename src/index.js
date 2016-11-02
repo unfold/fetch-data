@@ -1,3 +1,4 @@
+export connectFetchData from './connectFetchData'
 export createEntityReducer from './createEntityReducer'
 export createFetchAction from './createFetchAction'
 export createFetchMiddleware from './createFetchMiddleware'

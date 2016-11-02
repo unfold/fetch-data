@@ -2,19 +2,14 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { getActionRequestOptions, getRequestState } from './utils'
 
-const defaultMapStateToProps = () => ({ })
-const defaultGetRequestId = ({ requests }, id) => requests[id]
 const defaultSkipFetch = () => false
 const defaultForceFetch = () => false
 
 const fetchData = ({
-  mapStateToProps = defaultMapStateToProps,
   mapPropsToAction,
-  mapPropsToDispatch,
   mapPropsToRequest,
   skipFetch = defaultSkipFetch,
   forceFetch = defaultForceFetch,
-  getRequestById = defaultGetRequestId,
 }) => WrappedComponent => {
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
@@ -73,12 +68,12 @@ const fetchData = ({
 
     const action = mapPropsToAction(props)
     const options = getActionRequestOptions(action)
-    const request = getRequestById(state, options.id)
+    const request = state.requests[options.id]
 
     return request
   }
 
-  const mapStateToRequestProps = (state, props) => {
+  const mapStateToProps = (state, props) => {
     const request = getRequest(state, props)
     const { error, loading } = getRequestState(request)
 
@@ -86,11 +81,10 @@ const fetchData = ({
       request,
       error,
       loading,
-      ...mapStateToProps(state, props),
     }
   }
 
-  return connect(mapStateToRequestProps, mapPropsToDispatch)(FetchData)
+  return connect(mapStateToProps)(FetchData)
 }
 
 export default fetchData
