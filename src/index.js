@@ -1,3 +1,5 @@
+import 'isomorphic-fetch'
+
 export connectFetchData from './connectFetchData'
 export createEntityReducer from './createEntityReducer'
 export createFetchAction from './createFetchAction'
