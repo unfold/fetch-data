@@ -55,7 +55,7 @@
     "babel-plugin-transform-runtime": "^6.9.0",
     "isomorphic-fetch": "^2.2.1",
     "qs": "^6.3.0",
-    "retry": "^0.10.0"
+    "retry": "^0.10.1"
   },
   "peerDependencies": {
     "react": "^15.3.2",
