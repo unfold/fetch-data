@@ -1,14 +1,14 @@
 # Fetch Data
 
-This is a fork of the development server bundled with [create-react-app](https://github.com/facebookincubator/create-react-app).
+Declarative data fetching for Redux and React.
 
 ## Install
 
 #### npm
-`npm install --save-dev @unfold/fetch-data`
+`npm install --save @unfold/fetch-data`
 
 #### yarn
-`npm add --dev @unfold/fetch-data`
+`yarn add @unfold/fetch-data`
 
 ## Usage
 
