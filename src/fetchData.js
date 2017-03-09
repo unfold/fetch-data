@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { registerRequestPromise } from './resolver'
 import { getActionRequestOptions, getRequestState } from './utils'
 
 const defaultSkipFetch = () => false
@@ -16,20 +17,12 @@ const fetchData = ({
   class FetchData extends Component {
     static displayName = `FetchData(${displayName})`
 
-    static contextTypes = {
-      registerDependency: PropTypes.func,
-    }
-
     static propTypes = {
       request: PropTypes.object,
     }
 
     componentWillMount() {
-      const { registerDependency } = this.context
-
-      if (registerDependency) {
-        registerDependency(this.dispatchIfNeeded(this.props))
-      }
+      registerRequestPromise(() => this.dispatchIfNeeded(this.props))
     }
 
     componentDidMount() {
