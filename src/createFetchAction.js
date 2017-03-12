@@ -7,7 +7,7 @@ const createFetchAction = (
   type,
   options,
   action,
-  createRequestId = defaultCreateRequestId
+  createRequestId = defaultCreateRequestId,
 ) => ({
   type,
   [FETCH]: {

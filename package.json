@@ -7,7 +7,7 @@
     "lib"
   ],
   "scripts": {
-    "test": "eslint lib",
+    "test": "eslint src",
     "prebuild": "rm -rf lib",
     "build": "babel src --out-dir lib",
     "prepublish": "npm run build",
@@ -42,24 +42,22 @@
     ]
   },
   "devDependencies": {
-    "@unfold/eslint-config": "^1.2.0",
+    "@unfold/eslint-config": "^2.0.1",
     "chokidar": "^1.6.1",
-    "eslint": "^3.8.1",
-    "react": "^15.3.2",
-    "react-redux": "^4.4.5",
+    "eslint": "^3.17.1",
     "redux": "^3.6.0"
   },
   "dependencies": {
-    "@unfold/babel-preset": "^1.0.1",
-    "babel-cli": "^6.16.0",
-    "babel-plugin-transform-runtime": "^6.9.0",
+    "@unfold/babel-preset": "^1.0.3",
+    "babel-cli": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "isomorphic-fetch": "^2.2.1",
-    "qs": "^6.3.0",
-    "retry": "^0.10.0"
+    "qs": "^6.4.0",
+    "retry": "^0.10.1"
   },
   "peerDependencies": {
-    "react": "^15.3.2",
-    "react-redux": "^4.4.5",
+    "react": "^15.4.2",
+    "react-redux": "^5.0.3",
     "redux": "^3.6.0"
   }
 }
