@@ -31,7 +31,11 @@
   },
   "homepage": "https://github.com/unfold/fetch-data#readme",
   "eslintConfig": {
-    "extends": "@unfold/eslint-config"
+    "extends": "@unfold/eslint-config",
+    "rules": {
+      "import/no-unresolved": [2, { "ignore": ["react", "react-redux"] }],
+      "import/extensions": 0
+    }
   },
   "babel": {
     "presets": [
